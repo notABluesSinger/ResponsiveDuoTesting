@@ -4,6 +4,7 @@ var mobileAgent;
 chrome.extension.onMessage.addListener( function( request, sender, sendResponse ){
 	if( request.msgMode === 'newWindow' ){
 		mobileAgent = request.mobileAgent;
+		console.log(request.newWindowOptions)
 		chrome.windows.create( request.newWindowOptions, function( newWindow ) {
 			mobileWindowID = newWindow.id;
 			chrome.tabs.getSelected(null,function( tab ) {
