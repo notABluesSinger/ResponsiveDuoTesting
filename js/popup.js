@@ -15,7 +15,7 @@ document.body.onclick= function(e){
 	if(e.target.tagName === "LI" ) {
 		deviceChosen(e.target);
 	}
-}
+};
 
 function deviceChosen(clicked) {
 	mobileWidth = clicked.getAttribute( 'data-width' );
@@ -25,7 +25,7 @@ function deviceChosen(clicked) {
 	desktopWidth = ( screen.width - mobileWidth ) - windowGap;
 	desktopHeight = screen.height;
 
-	chrome.windows.getCurrent(function(window) {
+	chrome.windows.getCurrent(function( window ) {
 		chrome.tabs.getSelected(null,function( tab ) {
 			var curURL = tab.url;
 			curTabID = tab.id;
@@ -33,17 +33,17 @@ function deviceChosen(clicked) {
 				left : 0,
 				top : 0,
 				state : 'normal',
-				width: parseInt(desktopWidth),
-				height: parseInt(desktopHeight)
-			}
+				width: parseInt( desktopWidth ),
+				height: parseInt( desktopHeight )
+			};
 
 			chrome.windows.update( window.id, currentWindowOptions );
 
 			var newWindowOptions = {
 				url : curURL,
-				width : parseInt(mobileWidth),
-				height : parseInt(mobileHeight),
-				left : parseInt(mobileLeft),
+				width : parseInt( mobileWidth ),
+				height : parseInt( mobileHeight ),
+				left : parseInt( mobileLeft ),
 				top : 0
 			};
 			chrome.tabs.executeScript( curTabID, { file : 'js/DOMWatcher.js' } );

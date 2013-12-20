@@ -1,10 +1,11 @@
+var intialised = false;
 var mobileTabID;
 var mobileAgent;
 
 chrome.extension.onMessage.addListener( function( request, sender, sendResponse ){
 	if( request.msgMode === 'newWindow' ){
+		intialised = true;
 		mobileAgent = request.mobileAgent;
-		console.log(request.newWindowOptions)
 		chrome.windows.create( request.newWindowOptions, function( newWindow ) {
 			mobileWindowID = newWindow.id;
 			chrome.tabs.getSelected(null,function( tab ) {
@@ -18,13 +19,19 @@ chrome.extension.onMessage.addListener( function( request, sender, sendResponse 
 } );
 
 chrome.tabs.onUpdated.addListener( function( tabId, changeInfo, tab ) {
-	if( changeInfo.url ) {
+	if( changeInfo.url && intialised ) {
 		chrome.tabs.update( mobileTabID, { url : changeInfo.url } );
-	};
-} ); 
+	}
+} );
+
+chrome.tabs.onRemoved.addListener( function( tabId ) {
+	if( tabId === mobileTabID ) {
+		initalised = false;
+	}
+} );
 
 chrome.webRequest.onBeforeSendHeaders.addListener( function( details ) {
-	if( details.tabId === mobileTabID ){
+	if( details.tabId === mobileTabID && intialised ){
 		for ( var i = 0; i < details.requestHeaders.length; ++i ) {
 			if (details.requestHeaders[i].name === 'User-Agent') {
 				details.requestHeaders[i].value = mobileAgent;
