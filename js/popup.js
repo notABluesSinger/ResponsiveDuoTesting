@@ -40,11 +40,11 @@ function deviceChosen(clicked) {
 			chrome.windows.update( window.id, currentWindowOptions );
 
 			var newWindowOptions = {
-				url : curURL,
 				width : parseInt( mobileWidth ),
 				height : parseInt( mobileHeight ),
 				left : parseInt( mobileLeft ),
-				top : 0
+				top : 0,
+				url : curURL
 			};
 			chrome.tabs.executeScript( curTabID, { file : 'js/DOMWatcher.js' } );
 			chrome.extension.sendMessage( { msgMode : "newWindow", "newWindowOptions" : newWindowOptions, 'mobileAgent' : mobileAgent } );

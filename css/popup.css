@@ -19,20 +19,11 @@ ul {
 
 ul li {
 	margin : 0;
-	padding : 0;
+	padding : 8px;
 	cursor : pointer;
 	border-bottom : solid 1px #ccc;
 }
 
 ul li:hover {
 	background: #cfc;
-}
-
-ul li span {
-	display : inline-block;
-	margin : 8px;
-}
-
-ul li strong {
-	display : block;
 }
